@@ -43,7 +43,7 @@
             justify-content: center;
         }
 
-        /* --- CONTENITORE VERTICALE OPTIMIZED FOR MOBILE --- */
+        /* --- LAYOUT VERTICALE PER TELEFONI CELLULARI --- */
         .mobile-wrapper {
             width: 100%;
             max-width: 480px; /* Formato smartphone */
@@ -54,7 +54,7 @@
             box-shadow: 0 0 25px rgba(0,0,0,0.05);
         }
 
-        /* --- OVERLAY BUSTA DA APRIRE --- */
+        /* --- BUSTA INGRANDITA (OVERLAY) --- */
         #envelope-overlay {
             position: fixed;
             top: 0;
@@ -82,7 +82,7 @@
         }
 
         .envelope {
-            width: 330px;
+            width: 330px; /* Busta più grande */
             height: 230px;
             background: #F4EBE1;
             border-radius: 8px;
@@ -174,7 +174,7 @@
             transform: translateY(0);
         }
 
-        /* FONT CORSIVO ELEGANTE */
+        /* FONT CORSIVO ELEGANTE PER I NOMI */
         .script-font {
             font-family: 'Alex Brush', cursive;
         }
@@ -276,7 +276,7 @@
             margin-bottom: 5px;
         }
 
-        /* PULSANTI */
+        /* BOTTONI */
         .btn {
             display: inline-block;
             background: var(--verde-salvia);
@@ -335,7 +335,7 @@
             height: 220px;
         }
 
-        /* MODAL FOTO */
+        /* MODAL INGRANDIMENTO FOTO */
         .modal {
             position: fixed;
             top: 0;
@@ -374,17 +374,18 @@
 
     <div class="mobile-wrapper">
 
-        <!-- OVERLAY BUSTA -->
+        <!-- BUSTA APERTURA INGRANDITA -->
         <div id="envelope-overlay">
             <div class="envelope-wrapper" id="openEnvelopeBtn">
                 <div class="envelope">
+                    <!-- Ceralacca con Font Corsivo C&A -->
                     <div class="seal">C&amp;A</div>
                 </div>
             </div>
             <p class="envelope-text">Clicca per aprire l'invito</p>
         </div>
 
-        <!-- PULSANTE MUSICA -->
+        <!-- BOTTONE MUSICA -->
         <button class="audio-btn" id="musicToggle" title="Musica">🎵</button>
 
         <!-- MODAL INGRANDIMENTO FOTO -->
@@ -392,7 +393,7 @@
             <img id="modalImg" src="" alt="Foto Sposi">
         </div>
 
-        <!-- CONTENUTO PARTECIPAZIONE -->
+        <!-- CONTENUTO PRINCIPALE -->
         <div class="container" id="mainContainer">
             
             <header class="card">
@@ -412,7 +413,7 @@
                 </div>
             </header>
 
-            <!-- COUNTDOWN -->
+            <!-- COUNTDOWN (Corretto in "Mancano...") -->
             <section class="card">
                 <h2>Mancano...</h2>
                 <div class="timer-grid">
@@ -435,7 +436,7 @@
                 </div>
             </section>
 
-            <!-- CERIMONIA -->
+            <!-- CERIMONIA (Corretto in "Cerimonia") -->
             <section class="card">
                 <h2>Cerimonia</h2>
                 <div class="event-item">
@@ -463,7 +464,7 @@
 
     </div>
 
-    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         // 1. APERTURA BUSTA E CORIANDOLI SOBRI
         const envelopeOverlay = document.getElementById('envelope-overlay');
@@ -476,7 +477,7 @@
 
             initScrollReveal();
 
-            // Coriandoli leggeri e sobri in palette
+            // Coriandoli leggeri e sobri in palette rosa antico/salvia/panna
             if (typeof confetti === 'function') {
                 confetti({
                     particleCount: 45,
