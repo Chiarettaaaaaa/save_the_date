@@ -5,26 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chiara & Alberto - Save The Date</title>
 
-    <!-- Font Eleganti e Tipografici -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #2c3e35;        /* Verde salvia scuro profondo elegante */
-            --card-bg: #23332b;        /* Sfondo card interno */
-            --gold-light: #f3e5ab;     /* Oro chiaro */
-            --gold: #d4af37;           /* Oro classico */
-            --gold-dark: #aa820a;      /* Oro scuro per bordi */
-            --text-gold: #e6ca65;      /* Testo in tonalità oro */
-            --text-light: #e0e8e3;     /* Testo chiaro */
+            --bg-color: #2b3a32;
+            --card-bg: #212c26;
+            --gold-light: #f3e5ab;
+            --gold: #d4af37;
+            --text-gold: #e6ca65;
+            --text-light: #e0e8e3;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none;
         }
 
         body {
@@ -37,325 +36,105 @@
             align-items: center;
             padding: 20px 15px;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at center, #354a40 0%, #1e2c25 100%);
+            background-image: radial-gradient(circle at center, #36483f 0%, #1a251f 100%);
         }
 
-        /* CARD PRINCIPALE IN STILE BUSTA / PARCAMENA */
+        /* CARD PRINCIPALE BUSTA */
         .card-container {
             width: 100%;
-            max-width: 460px;
+            max-width: 440px;
             background: var(--card-bg);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 12px;
-            padding: 40px 25px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 10px;
+            padding: 35px 20px;
             text-align: center;
             position: relative;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.05);
         }
 
-        /* CORNICI E DETTAGLI IN ORO */
-        .corner-border {
+        /* CORNICI ORO AI QUATTRO ANGOLI */
+        .corner {
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 16px;
+            height: 16px;
             border-color: var(--gold);
             border-style: solid;
             pointer-events: none;
         }
-        .top-left { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
-        .top-right { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
-        .bottom-left { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
-        .bottom-right { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+        .top-left { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+        .top-right { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+        .bottom-left { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+        .bottom-right { bottom: 10px; right: 10px;Hai perfettamente ragione, mi scuso per l'errore! 
 
-        .star-divider {
-            color: var(--gold);
-            font-size: 1.1rem;
-            letter-spacing: 4px;
-            margin: 10px 0;
-            opacity: 0.85;
+Ora ho ricostruito l'esperienza **esatta del link che mi hai inviato**:
+1. **La patina/riquadro da grattare (Scratch-off)**: La data (`02 . 10 . 2027`) e la location (`Parrocchia Regina Pacis`) sono inizialmente coperte da una patina argentata sbrilluccicosa con la scritta *"Grattami per scoprire la data"*. L'utente può grattare con il dito o il mouse per svelarle!
+2. **Lo stile identico**: Sfondo verde salvia scuro profondo, dettagli dorati, la stella `✧`, i font eleganti e le scritte in caps.
+3. **Le sezioni rimosse**: Come avevi chiesto, sono stati tolti i pulsanti *Vedi Location* e *Conferma Presenza*, il menu in basso (*Programma, Lista Nozze, Dress Code*) e lasciata solo la parte principale.
+
+Ecco il codice completo aggiornato. Ti basta salvarlo in un file `.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiara & Alberto - Save The Date</title>
+
+    <!-- Font Eleganti -->
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+    <link href="[https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap](https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap)" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #27372e;        /* Verde scuro profondo */
+            --card-bg: #1f2d25;        /* Sfondo card interno */
+            --gold-light: #f5e6b3;     /* Oro chiaro */
+            --gold: #d4af37;           /* Oro */
+            --text-gold: #e2c974;
+            --text-light: #e0e8e3;
         }
 
-        .subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--text-gold);
-            margin-bottom: 15px;
-            font-weight: 400;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
         }
 
-        /* NOMI CORSIVI ELEGANTI */
-        .names-title {
-            font-family: 'Alex Brush', cursive;
-            font-size: 3.8rem;
-            color: var(--gold-light);
-            font-weight: normal;
-            line-height: 1.2;
-            margin: 15px 0;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .description {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.25rem;
+        body {
+            background-color: var(--bg-color);
             color: var(--text-light);
-            margin-bottom: 25px;
-            font-weight: 300;
-        }
-
-        /* SEZIONE DATA E LUOGO */
-        .details-box {
-            border-top: 1px solid rgba(212, 175, 55, 0.25);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-            padding: 20px 10px;
-            margin: 20px 0;
-        }
-
-        .date-display {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            letter-spacing: 3px;
-            color: var(--gold-light);
-            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            padding: 20px 15px;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, #2e4237 0%, #17231c 100%);
         }
 
-        .location-display {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-top: 8px;
-            letter-spacing: 1px;
-        }
-
-        /* COUNTDOWN (MANCANO...) */
-        .countdown-title {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: var(--text-gold);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .timer-grid {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .timer-unit {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 6px;
-            padding: 10px 8px;
-            min-width: 68px;
-        }
-
-        .timer-value {
-            font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
-            color: var(--gold-light);
-            display: block;
-        }
-
-        .timer-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(224, 232, 227, 0.7);
-            margin-top: 2px;
-            display: block;
-        }
-
-        /* PULSANTE AZIONE METTI IN CALENDARIO */
-        .action-btn {
-            display: inline-block;
-            background: transparent;
-            color: var(--gold-light);
-            border: 1px solid var(--gold);
-            padding: 14px 28px;
-            border-radius: 4px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
-
-        .action-btn:hover {
-            background: var(--gold);
-            color: #1e2c25;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-        }
-
-        /* PULSANTE MUSICA DI SFONDO */
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+        .card-container {
+            width: 100%;
+            max-width: 440px;
             background: var(--card-bg);
-            border: 1px solid var(--gold);
-            color: var(--gold-light);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 100;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.05);
         }
-    </style>
-</head>
-<body>
 
-    <!-- MUSICA DI SFONDO -->
-    <audio id="bgAudio" loop preload="auto">
-        <source src="background.mpeg" type="audio/mpeg">
-    </audio>
-
-    <button class="music-btn" id="musicToggle" title="Attiva/Disattiva Musica">🎵</button>
-
-    <div class="card-container">
-        <!-- Angoli decorativi oro -->
-        <div class="corner-border top-left"></div>
-        <div class="corner-border top-right"></div>
-        <div class="corner-border bottom-left"></div>
-        <div class="corner-border bottom-right"></div>
-
-        <div class="star-divider">✧</div>
-        <div class="subtitle">Save the Date</div>
-
-        <!-- Nomi Sposi -->
-        <h1 class="names-title">Chiara &amp; Alberto</h1>
-
-        <p class="description">Siamo lieti di invitarvi al nostro matrimonio</p>
-
-        <!-- Dettagli Data e Luogo -->
-        <div class="details-box">
-            <div class="date-display">
-                <span style="font-size: 0.8rem; color: var(--gold);">✧</span>
-                <span>02 . 10 . 2027</span>
-                <span style="font-size: 0.8rem; color: var(--gold);">✧</span>
-            </div>
-            <div class="location-display">Parrocchia Regina Pacis</div>
-        </div>
-
-        <!-- Countdown -->
-        <div class="countdown-title">Mancano...</div>
-        <div class="timer-grid">
-            <div class="timer-unit">
-                <span class="timer-value" id="days">00</span>
-                <span class="timer-label">Giorni</span>
-            </div>
-            <div class="timer-unit">
-                <span class="timer-value" id="hours">00</span>
-                <span class="timer-label">Ore</span>
-            </div>
-            <div class="timer-unit">
-                <span class="timer-value" id="minutes">00</span>
-                <span class="timer-label">Minuti</span>
-            </div>
-            <div class="timer-unit">
-                <span class="timer-value" id="seconds">00</span>
-                <span class="timer-label">Secondi</span>
-            </div>
-        </div>
-
-        <!-- Salva nel Calendario -->
-        <div>
-            <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:Matrimonio%20Chiara%20%26%20Alberto%0ADESCRIPTION:Matrimonio%20di%20Chiara%20e%20Alberto%20presso%20Parrocchia%20Regina%20Pacis%0ALOCATION:Parrocchia%20Regina%20Pacis%0ADTSTART:20271002T110000Z%0ADTEND:20271002T230000Z%0AEND:VEVENT%0AEND:VCALENDAR" download="matrimonio_chiara_alberto.ics" class="action-btn">
-                Salva nel Calendario
-            </a>
-        </div>
-
-        <div class="star-divider" style="margin-top: 25px;">✧</div>
-    </div>
-
-    <script>
-        // COUNTDOWN TIMER ALLA DATA DEL 2 OTTOBRE 2027
-        const weddingDate = new Date("2027-10-02T11:00:00").getTime();
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const difference = weddingDate - now;
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                document.getElementById("days").innerText = days.toString().padStart(2, '0');
-                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
-            }
+        /* CORNICI ED ELEMENTI GRAFICI ORO */
+        .corner-border {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-color: var(--gold);
+            border-style: solid;
+            pointer-events: none;
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // GESTIONE MUSICA DI SFONDO (Sintetizzatore integrato se manca il file audio)
-        const audio = document.getElementById('bgAudio');
-        const musicToggle = document.getElementById('musicToggle');
-        let isPlaying = false;
-        let audioCtx = null;
-        let synthInterval = null;
-
-        musicToggle.addEventListener('click', () => {
-            if (!isPlaying) {
-                // Tenta di riprodurre il file audio background.mpeg se presente
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicToggle.innerText = '🔊';
-                }).catch(() => {
-                    // Fallback con musica melodica di sottofondo in caso il file audio non sia presente nella cartella
-                    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    audioCtx.resume();
-                    isPlaying = true;
-                    musicToggle.innerText = '🔊';
-                    playSoftMelody();
-                });
-            } else {
-                audio.pause();
-                if (audioCtx) audioCtx.suspend();
-                if (synthInterval) clearInterval(synthInterval);
-                isPlaying = false;
-                musicToggle.innerText = '🎵';
-            }
-        });
-
-        function playSoftMelody() {
-            const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
-            let i = 0;
-            synthInterval = setInterval(() => {
-                if (!isPlaying) return;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.value = notes[i % notes.length];
-                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 1.2);
-                i++;
-            }, 900);
-        }
-    </script>
-</body>
-</html>
+        .top-left { top: 10px; left: 10px; border-width
