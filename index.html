@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Canvas Confetti Library -->
+    <!-- Canvas Confetti Library per l'effetto coriandoli -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -43,7 +43,7 @@
             justify-content: center;
         }
 
-        /* --- CONTENITORE VERTICALE PER MOBILE --- */
+        /* --- CONTENITORE VERTICALE OPTIMIZED FOR MOBILE --- */
         .mobile-wrapper {
             width: 100%;
             max-width: 480px; /* Formato smartphone */
@@ -54,7 +54,7 @@
             box-shadow: 0 0 25px rgba(0,0,0,0.05);
         }
 
-        /* --- BUSTA OVERLAY INGRANDITA --- */
+        /* --- OVERLAY BUSTA DA APRIRE --- */
         #envelope-overlay {
             position: fixed;
             top: 0;
@@ -174,7 +174,7 @@
             transform: translateY(0);
         }
 
-        /* NOMI ED ELEMENI CORSIVI */
+        /* FONT CORSIVO ELEGANTE */
         .script-font {
             font-family: 'Alex Brush', cursive;
         }
@@ -195,7 +195,7 @@
             margin-bottom: 20px;
         }
 
-        /* DECORAZIONE MONTAGNA SILHOUETTE */
+        /* DECORAZIONE SILHOUETTE MONTAGNA */
         .mountain-divider {
             width: 100%;
             height: 35px;
@@ -276,7 +276,7 @@
             margin-bottom: 5px;
         }
 
-        /* BOTTONI MAPPA E MUSICA */
+        /* PULSANTI */
         .btn {
             display: inline-block;
             background: var(--verde-salvia);
@@ -335,7 +335,7 @@
             height: 220px;
         }
 
-        /* MODAL */
+        /* MODAL FOTO */
         .modal {
             position: fixed;
             top: 0;
@@ -374,18 +374,17 @@
 
     <div class="mobile-wrapper">
 
-        <!-- BUSTA APERTURA INGRANDITA -->
+        <!-- OVERLAY BUSTA -->
         <div id="envelope-overlay">
             <div class="envelope-wrapper" id="openEnvelopeBtn">
                 <div class="envelope">
-                    <!-- Ceralacca con Font Corsivo C&A -->
                     <div class="seal">C&amp;A</div>
                 </div>
             </div>
             <p class="envelope-text">Clicca per aprire l'invito</p>
         </div>
 
-        <!-- BOTTONE MUSICA -->
+        <!-- PULSANTE MUSICA -->
         <button class="audio-btn" id="musicToggle" title="Musica">🎵</button>
 
         <!-- MODAL INGRANDIMENTO FOTO -->
@@ -393,14 +392,14 @@
             <img id="modalImg" src="" alt="Foto Sposi">
         </div>
 
-        <!-- CONTENUTO PRINCIPALE -->
+        <!-- CONTENUTO PARTECIPAZIONE -->
         <div class="container" id="mainContainer">
             
             <header class="card">
                 <h1 class="names script-font">Chiara &amp; Alberto</h1>
                 <p class="tagline">Siamo lieti di invitarvi al nostro matrimonio</p>
                 
-                <!-- Icona Montagna -->
+                <!-- Dettaglio Silhouette Montagna -->
                 <div class="mountain-divider">
                     <svg viewBox="0 0 100 40">
                         <path d="M 5 35 L 30 10 L 45 25 L 65 5 L 95 35 Z" fill="none" stroke="#849A86" stroke-width="2" stroke-linejoin="round"/>
@@ -464,7 +463,7 @@
 
     </div>
 
-    <!-- SCRIPT JAVASCRIPT -->
+    <!-- JAVASCRIPT -->
     <script>
         // 1. APERTURA BUSTA E CORIANDOLI SOBRI
         const envelopeOverlay = document.getElementById('envelope-overlay');
@@ -510,7 +509,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 3. ANIMAZIONE APPARIZIONE AL SCROLL
+        // 3. ANIMAZIONE SCROLL REVEAL
         function initScrollReveal() {
             const cards = document.querySelectorAll('.card');
             const observer = new IntersectionObserver((entries) => {
@@ -524,7 +523,7 @@
             cards.forEach(card => observer.observe(card));
         }
 
-        // 4. MODAL PER LE FOTO
+        // 4. MODAL GALLERIA FOTO
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         
