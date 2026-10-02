@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti Library per l'effetto coriandoli -->
+    <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -16,10 +16,10 @@
             --primary-color: #c5a059; /* Oro elegante */
             --primary-light: #e6c88b;
             --secondary-color: #fcf8f2; /* Sfondo avorio */
-            --text-color: #2c3e50; /* Blu notte / scuro */
+            --text-color: #2c3e50;
             --accent-color: #d4a373;
             --white: #ffffff;
-            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+            --shadow: 0 15px 35px rgba(0,0,0,0.08);
         }
 
         * {
@@ -38,20 +38,20 @@
             min-height: 100vh;
         }
 
-        /* --- SCHERMATA BUSTA ANIMATA (OVERLAY) --- */
+        /* --- OVERLAY BUSTA ANIMATA --- */
         #envelope-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(44, 62, 80, 0.95);
+            background: rgba(44, 62, 80, 0.96);
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease, visibility 1s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         #envelope-overlay.hidden {
@@ -63,29 +63,43 @@
         .envelope-wrapper {
             position: relative;
             cursor: pointer;
-            perspective: 1000px;
         }
 
         .envelope {
-            width: 320px;
-            height: 220px;
+            width: 300px;
+            height: 200px;
             background: #fdfbf7;
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: transform 0.4s ease;
+        }
+
+        /* Triangle flap for realistic envelope look */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #f3eee7;
+            transform-origin: top;
             transition: transform 0.5s ease;
         }
 
-        .envelope:hover {
-            transform: scale(1.03);
+        .envelope-wrapper:hover .envelope {
+            transform: scale(1.04);
         }
 
         .seal {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background: radial-gradient(circle, #c5a059 0%, #8a6d3b 100%);
             border-radius: 50%;
             display: flex;
@@ -94,7 +108,7 @@
             color: var(--white);
             font-family: 'Great Vibes', cursive;
             font-size: 1.8rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
             border: 2px solid #e6c88b;
             z-index: 2;
         }
@@ -102,16 +116,15 @@
         .envelope-text {
             color: var(--white);
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            margin-top: 25px;
+            font-size: 1.4rem;
+            margin-top: 30px;
             letter-spacing: 2px;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 0.6; }
+            0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
-            100% { opacity: 0.6; }
         }
 
         /* --- CONTENUTO PRINCIPALE --- */
@@ -120,8 +133,8 @@
             margin: 0 auto;
             padding: 20px;
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         .container.visible {
@@ -130,32 +143,31 @@
         }
 
         header {
-            padding: 40px 20px 20px;
+            padding: 30px 20px 20px;
         }
 
         .names {
             font-family: 'Great Vibes', cursive;
-            font-size: 4.5rem;
+            font-size: 4.2rem;
             color: var(--primary-color);
             margin-bottom: 5px;
         }
 
         .tagline {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            letter-spacing: 3px;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .date-badge {
             display: inline-block;
-            padding: 12px 30px;
+            padding: 10px 28px;
             border-top: 1px solid var(--primary-color);
             border-bottom: 1px solid var(--primary-color);
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.8rem;
-            margin-bottom: 25px;
             font-weight: 600;
         }
 
@@ -167,7 +179,7 @@
             box-shadow: var(--shadow);
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .card.reveal {
@@ -177,7 +189,7 @@
 
         h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.3rem;
+            font-size: 2.2rem;
             color: var(--primary-color);
             margin-bottom: 20px;
         }
@@ -194,7 +206,7 @@
             background: var(--secondary-color);
             padding: 18px 10px;
             border-radius: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
+            border: 1px solid rgba(197, 160, 89, 0.25);
         }
 
         .timer-value {
@@ -236,7 +248,7 @@
             margin-bottom: 5px;
         }
 
-        /* --- GALLERIA INTERATTIVA --- */
+        /* --- GALLERIA FOTO --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -250,15 +262,15 @@
             object-fit: cover;
             border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .gallery-grid img:hover {
-            transform: scale(1.04);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        /* Modal foto */
+        /* MODAL FOTO */
         .modal {
             position: fixed;
             top: 0;
@@ -282,7 +294,7 @@
 
         .modal img {
             max-width: 90%;
-            max-height: 80%;
+            max-height: 85%;
             border-radius: 8px;
         }
 
@@ -323,9 +335,10 @@
             border-radius: 10px;
             font-family: inherit;
             background: #f8fafc;
+            font-size: 0.95rem;
         }
 
-        /* --- CONTROLLO MUSICA --- */
+        /* --- MUSICA BOTTONE --- */
         .audio-btn {
             position: fixed;
             bottom: 25px;
@@ -351,16 +364,17 @@
         }
 
         footer {
-            padding: 40px 0;
+            padding: 30px 0;
             font-family: 'Great Vibes', cursive;
             font-size: 2.2rem;
             color: var(--primary-color);
         }
 
         @media (max-width: 600px) {
-            .names { font-size: 3.5rem; }
+            .names { font-size: 3.3rem; }
             .timer-grid { grid-template-columns: repeat(2, 1fr); }
-            .envelope { width: 280px; height: 190px; }
+            .envelope { width: 260px; height: 180px; }
+            .envelope::before { border-left-width: 130px; border-right-width: 130px; border-top-width: 90px; }
         }
     </style>
 </head>
@@ -379,7 +393,7 @@
     <!-- PULSANTE MUSICA -->
     <button class="audio-btn" id="musicToggle" title="Attiva/Disattiva Musica">🎵</button>
 
-    <!-- MODAL INGRANDIMENTO FOTO -->
+    <!-- MODAL FOTO -->
     <div class="modal" id="imageModal">
         <img id="modalImg" src="" alt="Foto Sposi">
     </div>
@@ -387,7 +401,7 @@
     <!-- CONTENUTO PARTECIPAZIONE -->
     <div class="container" id="mainContainer">
         
-        <header class="card reveal">
+        <header class="card">
             <h1 class="names">Chiara &amp; Alberto</h1>
             <p class="tagline">Siamo lieti di invitarvi al nostro matrimonio</p>
             <div class="date-badge">
@@ -396,7 +410,7 @@
         </header>
 
         <!-- COUNTDOWN -->
-        <section class="card reveal">
+        <section class="card">
             <h2>Mancano Soltanto...</h2>
             <div class="timer-grid">
                 <div class="timer-box">
@@ -419,7 +433,7 @@
         </section>
 
         <!-- PROGRAMMA -->
-        <section class="card reveal">
+        <section class="card">
             <h2>La Cerimonia</h2>
             <div class="event-details">
                 <div class="event-item">
@@ -427,13 +441,13 @@
                     <p>Via / Indirizzo (da inserire)</p>
                 </div>
             </div>
-            <a href="https://maps.google.com/?q=Parrocchia+Regina+Pacis" target="_blank" class="btn">Visualizza Mappa</a>
+            <a href="https://maps.google.com/?q=Parrocchia+Regina+Pacis" target="_blank" rel="noopener" class="btn">Visualizza Mappa</a>
         </section>
 
         <!-- GALLERIA FOTO -->
-        <section class="card reveal">
+        <section class="card">
             <h2>I Nostri Momenti</h2>
-            <p style="margin-bottom: 15px; font-size: 0.9rem; color: #666;">(Clicca sulle immagini per ingrandirle)</p>
+            <p style="margin-bottom: 15px; font-size: 0.85rem; color: #777;">(Clicca sulle immagini per ingrandirle)</p>
             <div class="gallery-grid">
                 <img src="https://picsum.photos/400/500?random=1" alt="Foto Sposi 1" class="gallery-img">
                 <img src="https://picsum.photos/400/500?random=2" alt="Foto Sposi 2" class="gallery-img">
@@ -442,11 +456,11 @@
         </section>
 
         <!-- MODULO RSVP -->
-        <section class="card reveal">
+        <section class="card">
             <h2>Conferma di Presenza</h2>
             <form id="rsvpForm">
                 <input type="text" id="guestName" placeholder="Il tuo Nome e Cognome" required>
-                <select id="attendance">
+                <select id="attendance" required>
                     <option value="Si">Sì, sarò presente!</option>
                     <option value="No">Purtroppo non potrò esserci</option>
                 </select>
@@ -474,11 +488,13 @@
             envelopeOverlay.classList.add('hidden');
             mainContainer.classList.add('visible');
 
-            // Lancia Coriandoli Dorati
+            // Inizia il controllo dello scroll reveal solo dopo l'apertura
+            initScrollReveal();
+
             if (typeof confetti === 'function') {
                 confetti({
-                    particleCount: 80,
-                    spread: 70,
+                    particleCount: 90,
+                    spread: 80,
                     origin: { y: 0.6 },
                     colors: ['#c5a059', '#e6c88b', '#ffffff']
                 });
@@ -508,16 +524,18 @@
         updateCountdown();
 
         // 3. ANIMAZIONE SCROLL REVEAL
-        const cards = document.querySelectorAll('.card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal');
-                }
-            });
-        }, { threshold: 0.1 });
+        function initScrollReveal() {
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal');
+                    }
+                });
+            }, { threshold: 0.15 });
 
-        cards.forEach(card => observer.observe(card));
+            cards.forEach(card => observer.observe(card));
+        }
 
         // 4. MODAL GALLERIA FOTO
         const modal = document.getElementById('imageModal');
@@ -549,9 +567,10 @@
             this.reset();
         });
 
-        // 6. MUSICA DI SFONDO (Web Audio Synthesizer)
+        // 6. MUSICA DI SFONDO (Corretto per evitare loop sovrapposti)
         let audioCtx = null;
         let isPlaying = false;
+        let timerId = null;
 
         document.getElementById('musicToggle').addEventListener('click', function() {
             if (!audioCtx) {
@@ -560,13 +579,14 @@
 
             if (!isPlaying) {
                 audioCtx.resume();
-                playMelody();
-                this.innerText = '🔊';
                 isPlaying = true;
+                this.innerText = '🔊';
+                playMelody();
             } else {
+                isPlaying = false;
+                clearTimeout(timerId);
                 audioCtx.suspend();
                 this.innerText = '🎵';
-                isPlaying = false;
             }
         });
 
@@ -576,6 +596,7 @@
 
             function step() {
                 if (!isPlaying) return;
+
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
 
@@ -592,8 +613,9 @@
                 osc.stop(audioCtx.currentTime + 1.2);
 
                 i++;
-                setTimeout(step, 800);
+                timerId = setTimeout(step, 800);
             }
+
             step();
         }
     </script>
