@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chiara & Alberto - Save The Date</title>
-    <!-- Font Eleganti -->
+    
+    <!-- Font Eleganti e Corsivo Raffinato (Alex Brush) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
     <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
-            --primary-color: #c5a059; /* Oro elegante */
-            --primary-light: #e6c88b;
-            --secondary-color: #fcf8f2; /* Sfondo avorio */
-            --text-color: #2c3e50;
-            --accent-color: #d4a373;
+            --panna: #FAF6F0;
+            --rosa-antico: #D8A7B1;
+            --rosa-scuro: #B57D88;
+            --verde-salvia: #849A86;
+            --salvia-scuro: #5C705E;
+            --testo: #3D4A3E;
             --white: #ffffff;
-            --shadow: 0 15px 35px rgba(0,0,0,0.08);
+            --shadow: 0 12px 30px rgba(132, 154, 134, 0.12);
         }
 
         * {
@@ -30,22 +33,35 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
+            background-color: var(--panna);
+            color: var(--testo);
             line-height: 1.6;
             text-align: center;
             overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
         }
 
-        /* --- OVERLAY BUSTA ANIMATA --- */
+        /* --- CONTENITORE VERTICALE PER MOBILE --- */
+        .mobile-wrapper {
+            width: 100%;
+            max-width: 480px; /* Formato smartphone */
+            min-height: 100vh;
+            background: var(--panna);
+            position: relative;
+            padding: 15px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.05);
+        }
+
+        /* --- BUSTA OVERLAY INGRANDITA --- */
         #envelope-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(44, 62, 80, 0.96);
+            background: rgba(92, 112, 94, 0.95);
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -66,11 +82,11 @@
         }
 
         .envelope {
-            width: 300px;
-            height: 200px;
-            background: #fdfbf7;
-            border-radius: 6px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            width: 330px;
+            height: 230px;
+            background: #F4EBE1;
+            border-radius: 8px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
             position: relative;
             display: flex;
             justify-content: center;
@@ -78,7 +94,6 @@
             transition: transform 0.4s ease;
         }
 
-        /* Triangle flap for realistic envelope look */
         .envelope::before {
             content: '';
             position: absolute;
@@ -86,55 +101,55 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 100px solid #f3eee7;
+            border-left: 165px solid transparent;
+            border-right: 165px solid transparent;
+            border-top: 115px solid #E8DDD0;
             transform-origin: top;
             transition: transform 0.5s ease;
         }
 
         .envelope-wrapper:hover .envelope {
-            transform: scale(1.04);
+            transform: scale(1.03);
         }
 
+        /* Ceralacca Rosa Antico con Font Alex Brush */
         .seal {
-            width: 65px;
-            height: 65px;
-            background: radial-gradient(circle, #c5a059 0%, #8a6d3b 100%);
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, var(--rosa-antico) 0%, var(--rosa-scuro) 100%);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--white);
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            border: 2px solid #e6c88b;
+            font-family: 'Alex Brush', cursive;
+            font-size: 2.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            border: 2px dashed rgba(255,255,255,0.4);
             z-index: 2;
+            padding-top: 5px;
         }
 
         .envelope-text {
-            color: var(--white);
+            color: var(--panna);
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-top: 30px;
             letter-spacing: 2px;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
+            0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
         }
 
         /* --- CONTENUTO PRINCIPALE --- */
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 1s ease, transform 1s ease;
+            padding-bottom: 30px;
         }
 
         .container.visible {
@@ -142,43 +157,15 @@
             transform: translateY(0);
         }
 
-        header {
-            padding: 30px 20px 20px;
-        }
-
-        .names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4.2rem;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-
-        .tagline {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .date-badge {
-            display: inline-block;
-            padding: 10px 28px;
-            border-top: 1px solid var(--primary-color);
-            border-bottom: 1px solid var(--primary-color);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-
         .card {
             background: var(--white);
-            border-radius: 16px;
-            padding: 40px 25px;
-            margin-bottom: 35px;
+            border-radius: 20px;
+            padding: 35px 20px;
+            margin-bottom: 25px;
             box-shadow: var(--shadow);
+            border: 1px solid rgba(216, 167, 177, 0.2);
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(25px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
@@ -187,90 +174,168 @@
             transform: translateY(0);
         }
 
+        /* NOMI ED ELEMENI CORSIVI */
+        .script-font {
+            font-family: 'Alex Brush', cursive;
+        }
+
+        .names {
+            font-size: 4rem;
+            color: var(--rosa-scuro);
+            line-height: 1.1;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: var(--verde-salvia);
+            margin-bottom: 20px;
+        }
+
+        /* DECORAZIONE MONTAGNA SILHOUETTE */
+        .mountain-divider {
+            width: 100%;
+            height: 35px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mountain-divider svg {
+            width: 80px;
+            fill: var(--verde-salvia);
+            opacity: 0.7;
+        }
+
+        .date-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-top: 1px solid var(--rosa-antico);
+            border-bottom: 1px solid var(--rosa-antico);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--verde-salvia);
+        }
+
         h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
+            font-size: 2rem;
+            color: var(--verde-salvia);
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         /* --- COUNTDOWN --- */
         .timer-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .timer-box {
-            background: var(--secondary-color);
-            padding: 18px 10px;
+            background: var(--panna);
+            padding: 12px 5px;
             border-radius: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.25);
+            border: 1px solid rgba(132, 154, 134, 0.2);
         }
 
         .timer-value {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 600;
-            color: var(--primary-color);
+            color: var(--rosa-scuro);
             font-family: 'Cormorant Garamond', serif;
         }
 
         .timer-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #777;
+            color: var(--salvia-scuro);
         }
 
-        /* --- PROGRAMMA --- */
-        .event-details {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-
+        /* --- CERIMONIA --- */
         .event-item {
-            padding: 20px;
-            background: var(--secondary-color);
+            padding: 18px;
+            background: var(--panna);
             border-radius: 12px;
-            width: 100%;
-            max-width: 500px;
-            border-left: 4px solid var(--primary-color);
-            text-align: left;
+            border-left: 3px solid var(--rosa-antico);
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .event-item h3 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            color: var(--primary-color);
+            font-size: 1.5rem;
+            color: var(--verde-salvia);
             margin-bottom: 5px;
         }
 
-        /* --- GALLERIA FOTO --- */
+        /* BOTTONI MAPPA E MUSICA */
+        .btn {
+            display: inline-block;
+            background: var(--verde-salvia);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(132, 154, 134, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--salvia-scuro);
+        }
+
+        .audio-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--rosa-antico);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 999;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* GALLERIA FOTO */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .gallery-grid img {
             width: 100%;
-            height: 250px;
+            height: 180px;
             object-fit: cover;
             border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .gallery-grid img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        .gallery-grid img:first-child {
+            grid-column: span 2;
+            height: 220px;
         }
 
-        /* MODAL FOTO */
+        /* MODAL */
         .modal {
             position: fixed;
             top: 0;
@@ -294,192 +359,114 @@
 
         .modal img {
             max-width: 90%;
-            max-height: 85%;
-            border-radius: 8px;
-        }
-
-        /* --- PULSANTI E FORM --- */
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #c5a059 0%, #a3803c 100%);
-            color: var(--white);
-            padding: 14px 35px;
-            border: none;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-top: 15px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(197, 160, 89, 0.4);
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #e2e8f0;
+            max-height: 80%;
             border-radius: 10px;
-            font-family: inherit;
-            background: #f8fafc;
-            font-size: 0.95rem;
-        }
-
-        /* --- MUSICA BOTTONE --- */
-        .audio-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: var(--primary-color);
-            color: var(--white);
-            border: none;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 999;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-        }
-
-        .audio-btn:hover {
-            transform: scale(1.1);
         }
 
         footer {
-            padding: 30px 0;
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.2rem;
-            color: var(--primary-color);
-        }
-
-        @media (max-width: 600px) {
-            .names { font-size: 3.3rem; }
-            .timer-grid { grid-template-columns: repeat(2, 1fr); }
-            .envelope { width: 260px; height: 180px; }
-            .envelope::before { border-left-width: 130px; border-right-width: 130px; border-top-width: 90px; }
+            padding: 20px 0;
+            font-size: 2.5rem;
+            color: var(--rosa-scuro);
         }
     </style>
 </head>
 <body>
 
-    <!-- OVERLAY BUSTA DA APRIRE -->
-    <div id="envelope-overlay">
-        <div class="envelope-wrapper" id="openEnvelopeBtn">
-            <div class="envelope">
-                <div class="seal">C&amp;A</div>
+    <div class="mobile-wrapper">
+
+        <!-- BUSTA APERTURA INGRANDITA -->
+        <div id="envelope-overlay">
+            <div class="envelope-wrapper" id="openEnvelopeBtn">
+                <div class="envelope">
+                    <!-- Ceralacca con Font Corsivo C&A -->
+                    <div class="seal">C&amp;A</div>
+                </div>
             </div>
+            <p class="envelope-text">Clicca per aprire l'invito</p>
         </div>
-        <p class="envelope-text">Clicca per aprire l'invito</p>
-    </div>
 
-    <!-- PULSANTE MUSICA -->
-    <button class="audio-btn" id="musicToggle" title="Attiva/Disattiva Musica">🎵</button>
+        <!-- BOTTONE MUSICA -->
+        <button class="audio-btn" id="musicToggle" title="Musica">🎵</button>
 
-    <!-- MODAL FOTO -->
-    <div class="modal" id="imageModal">
-        <img id="modalImg" src="" alt="Foto Sposi">
-    </div>
+        <!-- MODAL INGRANDIMENTO FOTO -->
+        <div class="modal" id="imageModal">
+            <img id="modalImg" src="" alt="Foto Sposi">
+        </div>
 
-    <!-- CONTENUTO PARTECIPAZIONE -->
-    <div class="container" id="mainContainer">
-        
-        <header class="card">
-            <h1 class="names">Chiara &amp; Alberto</h1>
-            <p class="tagline">Siamo lieti di invitarvi al nostro matrimonio</p>
-            <div class="date-badge">
-                <span>2 Ottobre 2027</span>
-            </div>
-        </header>
-
-        <!-- COUNTDOWN -->
-        <section class="card">
-            <h2>Mancano Soltanto...</h2>
-            <div class="timer-grid">
-                <div class="timer-box">
-                    <div class="timer-value" id="days">00</div>
-                    <div class="timer-label">Giorni</div>
+        <!-- CONTENUTO PRINCIPALE -->
+        <div class="container" id="mainContainer">
+            
+            <header class="card">
+                <h1 class="names script-font">Chiara &amp; Alberto</h1>
+                <p class="tagline">Siamo lieti di invitarvi al nostro matrimonio</p>
+                
+                <!-- Icona Montagna -->
+                <div class="mountain-divider">
+                    <svg viewBox="0 0 100 40">
+                        <path d="M 5 35 L 30 10 L 45 25 L 65 5 L 95 35 Z" fill="none" stroke="#849A86" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M 65 5 L 55 18 L 72 18 Z" fill="#849A86" opacity="0.4"/>
+                    </svg>
                 </div>
-                <div class="timer-box">
-                    <div class="timer-value" id="hours">00</div>
-                    <div class="timer-label">Ore</div>
-                </div>
-                <div class="timer-box">
-                    <div class="timer-value" id="minutes">00</div>
-                    <div class="timer-label">Minuti</div>
-                </div>
-                <div class="timer-box">
-                    <div class="timer-value" id="seconds">00</div>
-                    <div class="timer-label">Secondi</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- PROGRAMMA -->
-        <section class="card">
-            <h2>La Cerimonia</h2>
-            <div class="event-details">
+                <div class="date-badge">
+                    <span>2 Ottobre 2027</span>
+                </div>
+            </header>
+
+            <!-- COUNTDOWN -->
+            <section class="card">
+                <h2>Mancano...</h2>
+                <div class="timer-grid">
+                    <div class="timer-box">
+                        <div class="timer-value" id="days">00</div>
+                        <div class="timer-label">Giorni</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-value" id="hours">00</div>
+                        <div class="timer-label">Ore</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-value" id="minutes">00</div>
+                        <div class="timer-label">Minuti</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-value" id="seconds">00</div>
+                        <div class="timer-label">Secondi</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CERIMONIA -->
+            <section class="card">
+                <h2>Cerimonia</h2>
                 <div class="event-item">
                     <h3>Parrocchia Regina Pacis</h3>
-                    <p>Via / Indirizzo (da inserire)</p>
+                    <p style="font-size: 0.9rem; color: #666;">Via / Indirizzo (da inserire)</p>
                 </div>
-            </div>
-            <a href="https://maps.google.com/?q=Parrocchia+Regina+Pacis" target="_blank" rel="noopener" class="btn">Visualizza Mappa</a>
-        </section>
+                <a href="https://maps.google.com/?q=Parrocchia+Regina+Pacis" target="_blank" rel="noopener" class="btn">Visualizza Mappa</a>
+            </section>
 
-        <!-- GALLERIA FOTO -->
-        <section class="card">
-            <h2>I Nostri Momenti</h2>
-            <p style="margin-bottom: 15px; font-size: 0.85rem; color: #777;">(Clicca sulle immagini per ingrandirle)</p>
-            <div class="gallery-grid">
-                <img src="https://picsum.photos/400/500?random=1" alt="Foto Sposi 1" class="gallery-img">
-                <img src="https://picsum.photos/400/500?random=2" alt="Foto Sposi 2" class="gallery-img">
-                <img src="https://picsum.photos/400/500?random=3" alt="Foto Sposi 3" class="gallery-img">
-            </div>
-        </section>
+            <!-- GALLERIA FOTO -->
+            <section class="card">
+                <h2>I Nostri Momenti</h2>
+                <p style="margin-bottom: 12px; font-size: 0.8rem; color: #888;">(Clicca per ingrandire)</p>
+                <div class="gallery-grid">
+                    <img src="https://picsum.photos/500/350?random=1" alt="Foto Sposi 1" class="gallery-img">
+                    <img src="https://picsum.photos/400/400?random=2" alt="Foto Sposi 2" class="gallery-img">
+                    <img src="https://picsum.photos/400/400?random=3" alt="Foto Sposi 3" class="gallery-img">
+                </div>
+            </section>
 
-        <!-- MODULO RSVP -->
-        <section class="card">
-            <h2>Conferma di Presenza</h2>
-            <form id="rsvpForm">
-                <input type="text" id="guestName" placeholder="Il tuo Nome e Cognome" required>
-                <select id="attendance" required>
-                    <option value="Si">Sì, sarò presente!</option>
-                    <option value="No">Purtroppo non potrò esserci</option>
-                </select>
-                <textarea id="notes" rows="3" placeholder="Intolleranze alimentari o messaggi per gli sposi..."></textarea>
-                <button type="submit" class="btn">Invia Risposta</button>
-            </form>
-            <p id="rsvpSuccess" style="display:none; color: #27ae60; margin-top: 20px; font-weight: 600;">
-                ✨ Grazie! La tua conferma è stata salvata con successo.
-            </p>
-        </section>
+            <footer>
+                <p class="script-font">Chiara &amp; Alberto</p>
+            </footer>
+        </div>
 
-        <footer>
-            <p>Chiara &amp; Alberto • 02.10.2027</p>
-        </footer>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- SCRIPT JAVASCRIPT -->
     <script>
-        // 1. APERTURA BUSTA + CORIANDOLI
+        // 1. APERTURA BUSTA E CORIANDOLI SOBRI
         const envelopeOverlay = document.getElementById('envelope-overlay');
         const mainContainer = document.getElementById('mainContainer');
         const openEnvelopeBtn = document.getElementById('openEnvelopeBtn');
@@ -488,15 +475,15 @@
             envelopeOverlay.classList.add('hidden');
             mainContainer.classList.add('visible');
 
-            // Inizia il controllo dello scroll reveal solo dopo l'apertura
             initScrollReveal();
 
+            // Coriandoli leggeri e sobri in palette
             if (typeof confetti === 'function') {
                 confetti({
-                    particleCount: 90,
-                    spread: 80,
+                    particleCount: 45,
+                    spread: 60,
                     origin: { y: 0.6 },
-                    colors: ['#c5a059', '#e6c88b', '#ffffff']
+                    colors: ['#D8A7B1', '#849A86', '#FAF6F0', '#E6C88B']
                 });
             }
         });
@@ -523,7 +510,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 3. ANIMAZIONE SCROLL REVEAL
+        // 3. ANIMAZIONE APPARIZIONE AL SCROLL
         function initScrollReveal() {
             const cards = document.querySelectorAll('.card');
             const observer = new IntersectionObserver((entries) => {
@@ -532,12 +519,12 @@
                         entry.target.classList.add('reveal');
                     }
                 });
-            }, { threshold: 0.15 });
+            }, { threshold: 0.1 });
 
             cards.forEach(card => observer.observe(card));
         }
 
-        // 4. MODAL GALLERIA FOTO
+        // 4. MODAL PER LE FOTO
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         
@@ -552,22 +539,7 @@
             modal.classList.remove('open');
         });
 
-        // 5. RSVP FORM + CORIANDOLI
-        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('rsvpSuccess').style.display = 'block';
-
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 100,
-                    spread: 100,
-                    origin: { y: 0.7 }
-                });
-            }
-            this.reset();
-        });
-
-        // 6. MUSICA DI SFONDO (Corretto per evitare loop sovrapposti)
+        // 5. MUSICA DI SFONDO (Sottofondo delicato)
         let audioCtx = null;
         let isPlaying = false;
         let timerId = null;
@@ -603,17 +575,17 @@
                 osc.type = 'sine';
                 osc.frequency.value = notes[i % notes.length];
                 
-                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+                gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.4);
 
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
 
                 osc.start();
-                osc.stop(audioCtx.currentTime + 1.2);
+                osc.stop(audioCtx.currentTime + 1.4);
 
                 i++;
-                timerId = setTimeout(step, 800);
+                timerId = setTimeout(step, 900);
             }
 
             step();
