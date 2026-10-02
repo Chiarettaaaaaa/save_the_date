@@ -4,25 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chiara & Alberto - Save The Date</title>
-    
-    <!-- Font Eleganti e Corsivo Raffinato (Alex Brush) -->
+
+    <!-- Font Eleganti e Tipografici -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Canvas Confetti Library per l'effetto coriandoli -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --panna: #FAF6F0;
-            --rosa-antico: #D8A7B1;
-            --rosa-scuro: #B57D88;
-            --verde-salvia: #849A86;
-            --salvia-scuro: #5C705E;
-            --testo: #3D4A3E;
-            --white: #ffffff;
-            --shadow: 0 12px 30px rgba(132, 154, 134, 0.12);
+            --bg-color: #2c3e35;        /* Verde salvia scuro profondo elegante */
+            --card-bg: #23332b;        /* Sfondo card interno */
+            --gold-light: #f3e5ab;     /* Oro chiaro */
+            --gold: #d4af37;           /* Oro classico */
+            --gold-dark: #aa820a;      /* Oro scuro per bordi */
+            --text-gold: #e6ca65;      /* Testo in tonalità oro */
+            --text-light: #e0e8e3;     /* Testo chiaro */
         }
 
         * {
@@ -32,474 +28,276 @@
         }
 
         body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--panna);
-            color: var(--testo);
-            line-height: 1.6;
-            text-align: center;
-            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-        }
-
-        /* --- LAYOUT VERTICALE PER TELEFONI CELLULARI --- */
-        .mobile-wrapper {
-            width: 100%;
-            max-width: 480px; /* Formato smartphone */
-            min-height: 100vh;
-            background: var(--panna);
-            position: relative;
-            padding: 15px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.05);
-        }
-
-        /* --- BUSTA INGRANDITA (OVERLAY) --- */
-        #envelope-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(92, 112, 94, 0.95);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            padding: 20px 15px;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, #354a40 0%, #1e2c25 100%);
         }
 
-        #envelope-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
+        /* CARD PRINCIPALE IN STILE BUSTA / PARCAMENA */
+        .card-container {
+            width: 100%;
+            max-width: 460px;
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 40px 25px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.08);
+        }
+
+        /* CORNICI E DETTAGLI IN ORO */
+        .corner-border {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-color: var(--gold);
+            border-style: solid;
             pointer-events: none;
         }
+        .top-left { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+        .top-right { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+        .bottom-left { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+        .bottom-right { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
 
-        .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
+        .star-divider {
+            color: var(--gold);
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            margin: 10px 0;
+            opacity: 0.85;
         }
 
-        .envelope {
-            width: 330px; /* Busta più grande */
-            height: 230px;
-            background: #F4EBE1;
-            border-radius: 8px;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.4s ease;
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-gold);
+            margin-bottom: 15px;
+            font-weight: 400;
         }
 
-        .envelope::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 165px solid transparent;
-            border-right: 165px solid transparent;
-            border-top: 115px solid #E8DDD0;
-            transform-origin: top;
-            transition: transform 0.5s ease;
-        }
-
-        .envelope-wrapper:hover .envelope {
-            transform: scale(1.03);
-        }
-
-        /* Ceralacca Rosa Antico con Font Alex Brush */
-        .seal {
-            width: 75px;
-            height: 75px;
-            background: radial-gradient(circle, var(--rosa-antico) 0%, var(--rosa-scuro) 100%);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--white);
+        /* NOMI CORSIVI ELEGANTI */
+        .names-title {
             font-family: 'Alex Brush', cursive;
-            font-size: 2.2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            border: 2px dashed rgba(255,255,255,0.4);
-            z-index: 2;
-            padding-top: 5px;
-        }
-
-        .envelope-text {
-            color: var(--panna);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            margin-top: 30px;
-            letter-spacing: 2px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* --- CONTENUTO PRINCIPALE --- */
-        .container {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-            padding-bottom: 30px;
-        }
-
-        .container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 35px 20px;
-            margin-bottom: 25px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(216, 167, 177, 0.2);
-            opacity: 0;
-            transform: translateY(25px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .card.reveal {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* FONT CORSIVO ELEGANTE PER I NOMI */
-        .script-font {
-            font-family: 'Alex Brush', cursive;
-        }
-
-        .names {
-            font-size: 4rem;
-            color: var(--rosa-scuro);
-            line-height: 1.1;
-            margin-bottom: 10px;
+            font-size: 3.8rem;
+            color: var(--gold-light);
             font-weight: normal;
+            line-height: 1.2;
+            margin: 15px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .tagline {
+        .description {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        /* SEZIONE DATA E LUOGO */
+        .details-box {
+            border-top: 1px solid rgba(212, 175, 55, 0.25);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 20px 10px;
+            margin: 20px 0;
+        }
+
+        .date-display {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            color: var(--gold-light);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .location-display {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 8px;
             letter-spacing: 1px;
-            color: var(--verde-salvia);
-            margin-bottom: 20px;
         }
 
-        /* DECORAZIONE SILHOUETTE MONTAGNA */
-        .mountain-divider {
-            width: 100%;
-            height: 35px;
-            margin: 15px 0;
+        /* COUNTDOWN (MANCANO...) */
+        .countdown-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--text-gold);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .timer-grid {
             display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
         }
 
-        .mountain-divider svg {
-            width: 80px;
-            fill: var(--verde-salvia);
-            opacity: 0.7;
-        }
-
-        .date-badge {
-            display: inline-block;
-            padding: 8px 24px;
-            border-top: 1px solid var(--rosa-antico);
-            border-bottom: 1px solid var(--rosa-antico);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: var(--verde-salvia);
-        }
-
-        h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2rem;
-            color: var(--verde-salvia);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        /* --- COUNTDOWN --- */
-        .timer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .timer-box {
-            background: var(--panna);
-            padding: 12px 5px;
-            border-radius: 12px;
-            border: 1px solid rgba(132, 154, 134, 0.2);
+        .timer-unit {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 6px;
+            padding: 10px 8px;
+            min-width: 68px;
         }
 
         .timer-value {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--rosa-scuro);
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            display: block;
         }
 
         .timer-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--salvia-scuro);
+            color: rgba(224, 232, 227, 0.7);
+            margin-top: 2px;
+            display: block;
         }
 
-        /* --- CERIMONIA --- */
-        .event-item {
-            padding: 18px;
-            background: var(--panna);
-            border-radius: 12px;
-            border-left: 3px solid var(--rosa-antico);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .event-item h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            color: var(--verde-salvia);
-            margin-bottom: 5px;
-        }
-
-        /* BOTTONI */
-        .btn {
+        /* PULSANTE AZIONE METTI IN CALENDARIO */
+        .action-btn {
             display: inline-block;
-            background: var(--verde-salvia);
-            color: var(--white);
-            padding: 12px 30px;
-            border-radius: 25px;
+            background: transparent;
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 14px 28px;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 12px rgba(132, 154, 134, 0.3);
-            transition: background 0.3s ease;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
         }
 
-        .btn:hover {
-            background: var(--salvia-scuro);
+        .action-btn:hover {
+            background: var(--gold);
+            color: #1e2c25;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
         }
 
-        .audio-btn {
+        /* PULSANTE MUSICA DI SFONDO */
+        .music-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--rosa-antico);
-            color: var(--white);
-            border: none;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            z-index: 999;
-            font-size: 1.2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        /* GALLERIA FOTO */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .gallery-grid img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
             cursor: pointer;
-        }
-
-        .gallery-grid img:first-child {
-            grid-column: span 2;
-            height: 220px;
-        }
-
-        /* MODAL INGRANDIMENTO FOTO */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal img {
-            max-width: 90%;
-            max-height: 80%;
-            border-radius: 10px;
-        }
-
-        footer {
-            padding: 20px 0;
-            font-size: 2.5rem;
-            color: var(--rosa-scuro);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 100;
         }
     </style>
 </head>
 <body>
 
-    <div class="mobile-wrapper">
+    <!-- MUSICA DI SFONDO -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="background.mpeg" type="audio/mpeg">
+    </audio>
 
-        <!-- BUSTA APERTURA INGRANDITA -->
-        <div id="envelope-overlay">
-            <div class="envelope-wrapper" id="openEnvelopeBtn">
-                <div class="envelope">
-                    <!-- Ceralacca con Font Corsivo C&A -->
-                    <div class="seal">C&amp;A</div>
-                </div>
+    <button class="music-btn" id="musicToggle" title="Attiva/Disattiva Musica">🎵</button>
+
+    <div class="card-container">
+        <!-- Angoli decorativi oro -->
+        <div class="corner-border top-left"></div>
+        <div class="corner-border top-right"></div>
+        <div class="corner-border bottom-left"></div>
+        <div class="corner-border bottom-right"></div>
+
+        <div class="star-divider">✧</div>
+        <div class="subtitle">Save the Date</div>
+
+        <!-- Nomi Sposi -->
+        <h1 class="names-title">Chiara &amp; Alberto</h1>
+
+        <p class="description">Siamo lieti di invitarvi al nostro matrimonio</p>
+
+        <!-- Dettagli Data e Luogo -->
+        <div class="details-box">
+            <div class="date-display">
+                <span style="font-size: 0.8rem; color: var(--gold);">✧</span>
+                <span>02 . 10 . 2027</span>
+                <span style="font-size: 0.8rem; color: var(--gold);">✧</span>
             </div>
-            <p class="envelope-text">Clicca per aprire l'invito</p>
+            <div class="location-display">Parrocchia Regina Pacis</div>
         </div>
 
-        <!-- BOTTONE MUSICA -->
-        <button class="audio-btn" id="musicToggle" title="Musica">🎵</button>
-
-        <!-- MODAL INGRANDIMENTO FOTO -->
-        <div class="modal" id="imageModal">
-            <img id="modalImg" src="" alt="Foto Sposi">
+        <!-- Countdown -->
+        <div class="countdown-title">Mancano...</div>
+        <div class="timer-grid">
+            <div class="timer-unit">
+                <span class="timer-value" id="days">00</span>
+                <span class="timer-label">Giorni</span>
+            </div>
+            <div class="timer-unit">
+                <span class="timer-value" id="hours">00</span>
+                <span class="timer-label">Ore</span>
+            </div>
+            <div class="timer-unit">
+                <span class="timer-value" id="minutes">00</span>
+                <span class="timer-label">Minuti</span>
+            </div>
+            <div class="timer-unit">
+                <span class="timer-value" id="seconds">00</span>
+                <span class="timer-label">Secondi</span>
+            </div>
         </div>
 
-        <!-- CONTENUTO PRINCIPALE -->
-        <div class="container" id="mainContainer">
-            
-            <header class="card">
-                <h1 class="names script-font">Chiara &amp; Alberto</h1>
-                <p class="tagline">Siamo lieti di invitarvi al nostro matrimonio</p>
-                
-                <!-- Dettaglio Silhouette Montagna -->
-                <div class="mountain-divider">
-                    <svg viewBox="0 0 100 40">
-                        <path d="M 5 35 L 30 10 L 45 25 L 65 5 L 95 35 Z" fill="none" stroke="#849A86" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M 65 5 L 55 18 L 72 18 Z" fill="#849A86" opacity="0.4"/>
-                    </svg>
-                </div>
-
-                <div class="date-badge">
-                    <span>2 Ottobre 2027</span>
-                </div>
-            </header>
-
-            <!-- COUNTDOWN (Corretto in "Mancano...") -->
-            <section class="card">
-                <h2>Mancano...</h2>
-                <div class="timer-grid">
-                    <div class="timer-box">
-                        <div class="timer-value" id="days">00</div>
-                        <div class="timer-label">Giorni</div>
-                    </div>
-                    <div class="timer-box">
-                        <div class="timer-value" id="hours">00</div>
-                        <div class="timer-label">Ore</div>
-                    </div>
-                    <div class="timer-box">
-                        <div class="timer-value" id="minutes">00</div>
-                        <div class="timer-label">Minuti</div>
-                    </div>
-                    <div class="timer-box">
-                        <div class="timer-value" id="seconds">00</div>
-                        <div class="timer-label">Secondi</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CERIMONIA (Corretto in "Cerimonia") -->
-            <section class="card">
-                <h2>Cerimonia</h2>
-                <div class="event-item">
-                    <h3>Parrocchia Regina Pacis</h3>
-                    <p style="font-size: 0.9rem; color: #666;">Via / Indirizzo (da inserire)</p>
-                </div>
-                <a href="https://maps.google.com/?q=Parrocchia+Regina+Pacis" target="_blank" rel="noopener" class="btn">Visualizza Mappa</a>
-            </section>
-
-            <!-- GALLERIA FOTO -->
-            <section class="card">
-                <h2>I Nostri Momenti</h2>
-                <p style="margin-bottom: 12px; font-size: 0.8rem; color: #888;">(Clicca per ingrandire)</p>
-                <div class="gallery-grid">
-                    <img src="https://picsum.photos/500/350?random=1" alt="Foto Sposi 1" class="gallery-img">
-                    <img src="https://picsum.photos/400/400?random=2" alt="Foto Sposi 2" class="gallery-img">
-                    <img src="https://picsum.photos/400/400?random=3" alt="Foto Sposi 3" class="gallery-img">
-                </div>
-            </section>
-
-            <footer>
-                <p class="script-font">Chiara &amp; Alberto</p>
-            </footer>
+        <!-- Salva nel Calendario -->
+        <div>
+            <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:Matrimonio%20Chiara%20%26%20Alberto%0ADESCRIPTION:Matrimonio%20di%20Chiara%20e%20Alberto%20presso%20Parrocchia%20Regina%20Pacis%0ALOCATION:Parrocchia%20Regina%20Pacis%0ADTSTART:20271002T110000Z%0ADTEND:20271002T230000Z%0AEND:VEVENT%0AEND:VCALENDAR" download="matrimonio_chiara_alberto.ics" class="action-btn">
+                Salva nel Calendario
+            </a>
         </div>
 
+        <div class="star-divider" style="margin-top: 25px;">✧</div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // 1. APERTURA BUSTA E CORIANDOLI SOBRI
-        const envelopeOverlay = document.getElementById('envelope-overlay');
-        const mainContainer = document.getElementById('mainContainer');
-        const openEnvelopeBtn = document.getElementById('openEnvelopeBtn');
-
-        openEnvelopeBtn.addEventListener('click', () => {
-            envelopeOverlay.classList.add('hidden');
-            mainContainer.classList.add('visible');
-
-            initScrollReveal();
-
-            // Coriandoli leggeri e sobri in palette rosa antico/salvia/panna
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 45,
-                    spread: 60,
-                    origin: { y: 0.6 },
-                    colors: ['#D8A7B1', '#849A86', '#FAF6F0', '#E6C88B']
-                });
-            }
-        });
-
-        // 2. COUNTDOWN TIMER (2 Ottobre 2027)
-        const targetDate = new Date("2027-10-02T11:00:00").getTime();
+        // COUNTDOWN TIMER ALLA DATA DEL 2 OTTOBRE 2027
+        const weddingDate = new Date("2027-10-02T11:00:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
-            const diff = targetDate - now;
+            const difference = weddingDate - now;
 
-            if (diff > 0) {
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
                 document.getElementById("days").innerText = days.toString().padStart(2, '0');
                 document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
@@ -510,85 +308,53 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 3. ANIMAZIONE SCROLL REVEAL
-        function initScrollReveal() {
-            const cards = document.querySelectorAll('.card');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            cards.forEach(card => observer.observe(card));
-        }
-
-        // 4. MODAL GALLERIA FOTO
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImg');
-        
-        document.querySelectorAll('.gallery-img').forEach(img => {
-            img.addEventListener('click', () => {
-                modalImg.src = img.src;
-                modal.classList.add('open');
-            });
-        });
-
-        modal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        // 5. MUSICA DI SFONDO (Sottofondo delicato)
-        let audioCtx = null;
+        // GESTIONE MUSICA DI SFONDO (Sintetizzatore integrato se manca il file audio)
+        const audio = document.getElementById('bgAudio');
+        const musicToggle = document.getElementById('musicToggle');
         let isPlaying = false;
-        let timerId = null;
+        let audioCtx = null;
+        let synthInterval = null;
 
-        document.getElementById('musicToggle').addEventListener('click', function() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-
+        musicToggle.addEventListener('click', () => {
             if (!isPlaying) {
-                audioCtx.resume();
-                isPlaying = true;
-                this.innerText = '🔊';
-                playMelody();
+                // Tenta di riprodurre il file audio background.mpeg se presente
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicToggle.innerText = '🔊';
+                }).catch(() => {
+                    // Fallback con musica melodica di sottofondo in caso il file audio non sia presente nella cartella
+                    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    audioCtx.resume();
+                    isPlaying = true;
+                    musicToggle.innerText = '🔊';
+                    playSoftMelody();
+                });
             } else {
+                audio.pause();
+                if (audioCtx) audioCtx.suspend();
+                if (synthInterval) clearInterval(synthInterval);
                 isPlaying = false;
-                clearTimeout(timerId);
-                audioCtx.suspend();
-                this.innerText = '🎵';
+                musicToggle.innerText = '🎵';
             }
         });
 
-        function playMelody() {
+        function playSoftMelody() {
             const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
             let i = 0;
-
-            function step() {
+            synthInterval = setInterval(() => {
                 if (!isPlaying) return;
-
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-
                 osc.type = 'sine';
                 osc.frequency.value = notes[i % notes.length];
-                
-                gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.4);
-
+                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
                 osc.start();
-                osc.stop(audioCtx.currentTime + 1.4);
-
+                osc.stop(audioCtx.currentTime + 1.2);
                 i++;
-                timerId = setTimeout(step, 900);
-            }
-
-            step();
+            }, 900);
         }
     </script>
 </body>
