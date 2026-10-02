@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save the Date - Chiara & Alberto</title>
+    <title>Chiara & Alberto - Save the Date</title>
 
     <!-- Font Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,10 +12,15 @@
 
     <style>
         :root {
-            --bg-color: #2b3a32;
+            --bg-page: #ffffff;
+            --sage: #8a9a86;
+            --sage-light: #e8eee7;
+            --dusty-rose: #d8a7a1;
+            --cream: #fcfaf7;
             --gold: #d4af37;
             --gold-light: #f3e5ab;
-            --text-light: #e0e8e3;
+            --text-dark: #3a443c;
+            --text-gold: #b38f28;
         }
 
         * {
@@ -25,96 +30,232 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-light);
+            background-color: var(--bg-page);
+            color: var(--text-dark);
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px 15px;
-            background-image: radial-gradient(circle at center, #354a40 0%, #1e2c25 100%);
+            overflow-x: hidden;
         }
 
-        .card {
+        /* CONTENITORE PRINCIPALE STAGE */
+        .stage {
+            position: relative;
             width: 100%;
             max-width: 440px;
-            background: #212f28;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 8px;
-            padding: 35px 20px;
-            text-align: center;
+            min-height: 620px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-container {
             position: relative;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 540px;
+            cursor: pointer;
+            perspective: 1000px;
         }
 
-        /* Angoli dorati decorativi */
-        .corner {
+        /* BUSTA FISICA HTML/CSS */
+        .envelope {
             position: absolute;
-            width: 12px;
-            height: 12px;
-            border-color: var(--gold);
-            border-style: solid;
+            width: 100%;
+            height: 100%;
+            background: var(--cream);
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            overflow: hidden;
         }
-        .tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
-        .tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
-        .bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
-        .br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
 
-        .star {
-            color: var(--gold);
-            font-size: 1.2rem;
-            margin: 10px 0;
+        /* Sfondo Acquerello Busta */
+        .env-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, #ffffff 0%, #f3e6e3 50%, #d8a7a1 100%);
+            opacity: 0.8;
+        }
+
+        /* LEMBI BUSTA (SVG) */
+        .env-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* LEMBO SUPERIORE (PER ANIMAZIONE APERTURA) */
+        .flap-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 270px;
+            transform-origin: top center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 4;
+        }
+
+        .flap-top svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+        }
+
+        /* CERALACCA */
+        .wax-seal {
+            position: absolute;
+            top: 270px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #e6ca65 0%, #c5a059 50%, #8a6c29 100%);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .wax-inner {
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            border: 1px dashed rgba(120, 85, 20, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .wax-text {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #4a3810;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .tap-hint {
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--sage);
+            text-transform: uppercase;
+            z-index: 3;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ANIMAZIONE APERTURA BUSTA */
+        .envelope-container.open .flap-top {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-container.open .wax-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            pointer-events: none;
+        }
+
+        .envelope-container.open .card-container {
+            transform: translateY(-80px) scale(1);
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* SCHEDA INVITO (PARTECIPAZIONE) */
+        .card-container {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            background: var(--cream);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 35px 20px 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(216, 167, 161, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(138, 154, 134, 0.15) 0%, transparent 40%);
+            display: none; /* Attivato al click dell'apertura */
+        }
+
+        /* Dettagli Montagna Stilizzati */
+        .mountain-graphic {
+            width: 100%;
+            height: 45px;
+            margin: 5px 0 10px 0;
         }
 
         .subtitle {
             font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 4px;
             text-transform: uppercase;
-            color: var(--gold-light);
-            margin-bottom: 15px;
+            color: var(--text-gold);
+            margin-bottom: 5px;
         }
 
         .names {
             font-family: 'Alex Brush', cursive;
-            font-size: 3.6rem;
-            color: var(--gold-light);
+            font-size: 3.5rem;
+            color: var(--text-dark);
             font-weight: normal;
-            margin: 10px 0;
+            margin: 5px 0 10px 0;
             line-height: 1.1;
         }
 
         .intro-text {
-            font-size: 0.95rem;
-            color: var(--text-light);
+            font-size: 0.85rem;
+            color: var(--sage);
+            letter-spacing: 1px;
+            text-transform: uppercase;
             margin-bottom: 25px;
-            opacity: 0.9;
+            font-weight: 500;
         }
 
         /* RIQUADRO GRATTAMI (SCRATCH BOX) */
         .scratch-container {
             position: relative;
             width: 100%;
-            max-width: 320px;
-            height: 110px;
+            max-width: 300px;
+            height: 90px;
             margin: 0 auto 25px auto;
-            border-radius: 6px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             user-select: none;
             -webkit-user-select: none;
         }
 
-        /* Testo nascosto sotto la patina */
         .scratch-secret {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #19241f;
+            background: #f7f3eb;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -124,19 +265,12 @@
 
         .scratch-date {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             letter-spacing: 2px;
-            color: var(--gold-light);
+            color: var(--text-gold);
             font-weight: 600;
         }
 
-        .scratch-location {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            margin-top: 6px;
-        }
-
-        /* Canvas da grattare via */
         .scratch-canvas {
             position: absolute;
             top: 0;
@@ -152,54 +286,62 @@
         .timer-grid {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             margin: 20px 0 25px 0;
         }
 
         .timer-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 6px;
-            padding: 8px 6px;
-            min-width: 65px;
+            background: #ffffff;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 14px;
+            padding: 12px 6px;
+            width: 68px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
         .timer-num {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--gold-light);
+            font-size: 1.4rem;
+            color: var(--text-dark);
             display: block;
+            font-weight: 500;
         }
 
         .timer-label {
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: rgba(224, 232, 227, 0.7);
+            color: var(--sage);
+            margin-top: 4px;
+            display: block;
         }
 
-        /* BOTTONE SALVA NEL CALENDARIO */
-        .btn-calendar {
-            display: inline-block;
-            border: 1px solid var(--gold);
-            color: var(--gold-light);
-            padding: 12px 24px;
-            border-radius: 4px;
+        /* PULSANTE CERIMONIA */
+        .btn-action {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--text-gold);
+            padding: 14px 20px;
+            border-radius: 25px;
             font-family: 'Cinzel', serif;
             font-size: 0.75rem;
             letter-spacing: 2px;
             text-decoration: none;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            background: transparent;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
-        .btn-calendar:hover {
+        .btn-action:hover {
             background: var(--gold);
-            color: #1e2c25;
+            color: #ffffff;
         }
 
-        /* BOTTONE AUDIO */
+        /* BOTTONE MUSICA */
         .audio-btn {
             position: fixed;
             bottom: 20px;
@@ -207,79 +349,150 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: #212f28;
+            background: #ffffff;
             border: 1px solid var(--gold);
-            color: var(--gold-light);
+            color: var(--text-gold);
             font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 99;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
+    <!-- Audio di sottofondo -->
     <audio id="bgAudio" loop preload="auto">
         <source src="background.mpeg" type="audio/mpeg">
     </audio>
 
     <button class="audio-btn" id="musicToggle" title="Musica">🎵</button>
 
-    <div class="card">
-        <div class="corner tl"></div>
-        <div class="corner tr"></div>
-        <div class="corner bl"></div>
-        <div class="corner br"></div>
+    <div class="stage">
+        <!-- BUSTA APRIBILE (LANDING) -->
+        <div class="envelope-container" id="envelopeContainer" onclick="openEnvelope()">
+            <div class="envelope">
+                <div class="env-bg"></div>
 
-        <div class="star">✧</div>
-        <div class="subtitle">Save the Date</div>
+                <!-- Lembo Superiore -->
+                <div class="flap-top">
+                    <svg viewBox="0 0 400 270" preserveAspectRatio="none">
+                        <polygon points="0,0 200,270 400,0" fill="#fbf8f3" stroke="rgba(212, 175, 55, 0.3)" stroke-width="1"/>
+                        <polygon points="0,0 200,270 400,0" fill="url(#topGrad)" opacity="0.7"/>
+                        <defs>
+                            <linearGradient id="topGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#f3e6e3"/>
+                                <stop offset="100%" stop-color="#d8a7a1"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
 
-        <h1 class="names">Chiara &amp; Alberto</h1>
+                <!-- Lembi Laterali e Inferiore -->
+                <svg class="env-svg" viewBox="0 0 400 540" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="sideGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#e2eae1"/>
+                            <stop offset="100%" stop-color="#ffffff"/>
+                        </linearGradient>
+                        <linearGradient id="bottomGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stop-color="#8a9a86" stop-opacity="0.4"/>
+                            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <polygon points="0,0 200,270 0,540" fill="url(#sideGrad)" opacity="0.6"/>
+                    <polygon points="400,0 200,270 400,540" fill="url(#sideGrad)" opacity="0.6"/>
+                    <polygon points="0,540 200,270 400,540" fill="#fbf8f3"/>
+                    <polygon points="0,540 200,270 400,540" fill="url(#bottomGrad)"/>
+                </svg>
 
-        <p class="intro-text">Scopri i dettagli del nostro matrimonio</p>
-
-        <!-- RIQUADRO GRATTAMI -->
-        <div class="scratch-container" id="scratchContainer">
-            <div class="scratch-secret">
-                <div class="scratch-date">✧ 02 . 10 . 2027 ✧</div>
-                <div class="scratch-location">Parrocchia Regina Pacis</div>
+                <div class="tap-hint">Clicca per aprire</div>
             </div>
-            <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
+
+            <!-- Sigillo Ceralacca C & A -->
+            <div class="wax-seal">
+                <div class="wax-inner">
+                    <div class="wax-text">C &amp; A</div>
+                </div>
+            </div>
         </div>
 
-        <!-- COUNTDOWN -->
-        <div class="timer-grid">
-            <div class="timer-box">
-                <span class="timer-num" id="days">00</span>
-                <span class="timer-label">Giorni</span>
+        <!-- SCHEDA INVITO (SAVE THE DATE) -->
+        <div class="card-container" id="cardContainer">
+            <div class="subtitle">SAVE THE DATE</div>
+
+            <!-- Dettaglio Montagna Top -->
+            <svg class="mountain-graphic" viewBox="0 0 200 40" fill="none" stroke="#d4af37" stroke-width="1.2">
+                <path d="M 10 35 L 40 15 L 60 28 L 90 8 L 120 30 L 145 18 L 175 35" />
+                <path d="M 75 18 L 90 8 L 102 17" stroke-dasharray="2 2" />
+                <circle cx="100" cy="5" r="1" fill="#d4af37" />
+            </svg>
+
+            <h1 class="names">Chiara &amp; Alberto</h1>
+
+            <p class="intro-text">Siamo lieti di invitarvi<br>al nostro matrimonio</p>
+
+            <!-- RIQUADRO GRATTAMI -->
+            <div class="scratch-container" id="scratchContainer">
+                <div class="scratch-secret">
+                    <div class="scratch-date">2 OTTOBRE 2027</div>
+                </div>
+                <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
             </div>
-            <div class="timer-box">
-                <span class="timer-num" id="hours">00</span>
-                <span class="timer-label">Ore</span>
+
+            <!-- COUNTDOWN -->
+            <div class="timer-grid">
+                <div class="timer-box">
+                    <span class="timer-num" id="days">00</span>
+                    <span class="timer-label">Giorni</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-num" id="hours">00</span>
+                    <span class="timer-label">Ore</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-num" id="minutes">00</span>
+                    <span class="timer-label">Minuti</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-num" id="seconds">00</span>
+                    <span class="timer-label">Secondi</span>
+                </div>
             </div>
-            <div class="timer-box">
-                <span class="timer-num" id="minutes">00</span>
-                <span class="timer-label">Minuti</span>
-            </div>
-            <div class="timer-box">
-                <span class="timer-num" id="seconds">00</span>
-                <span class="timer-label">Secondi</span>
-            </div>
+
+            <!-- PULSANTE CERIMONIA -->
+            <a href="#cerimonia" class="btn-action">
+                CERIMONIA
+            </a>
+
+            <!-- Dettaglio Montagna Bottom -->
+            <svg class="mountain-graphic" style="margin-top:20px; transform: rotate(180deg);" viewBox="0 0 200 40" fill="none" stroke="#8a9a86" stroke-width="1">
+                <path d="M 20 30 L 50 15 L 80 30 L 110 10 L 150 32" />
+            </svg>
         </div>
-
-        <!-- SALVA NEL CALENDARIO -->
-        <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:Matrimonio%20Chiara%20%26%20Alberto%0ADESCRIPTION:Matrimonio%20di%20Chiara%20e%20Alberto%20presso%20Parrocchia%20Regina%20Pacis%0ALOCATION:Parrocchia%20Regina%20Pacis%0ADTSTART:20271002T110000Z%0ADTEND:20271002T230000Z%0AEND:VEVENT%0AEND:VCALENDAR" download="Chiara_Alberto_SaveTheDate.ics" class="btn-calendar">
-            Salva nel Calendario
-        </a>
-
-        <div class="star" style="margin-top: 25px;">✧</div>
     </div>
 
     <script>
-        // 1. LOGICA SCRATCH (GRATTAMI VIA CANVAS)
+        // 1. APERTURA BUSTA
+        function openEnvelope() {
+            const container = document.getElementById('envelopeContainer');
+            const card = document.getElementById('cardContainer');
+            
+            if (!container.classList.contains('open')) {
+                container.classList.add('open');
+                
+                setTimeout(() => {
+                    container.style.display = 'none';
+                    card.style.display = 'block';
+                    initScratch();
+                }, 700);
+            }
+        }
+
+        // 2. LOGICA SCRATCH (GRATTAMI)
         const canvas = document.getElementById('scratchCanvas');
         const ctx = canvas.getContext('2d');
         const container = document.getElementById('scratchContainer');
@@ -288,21 +501,17 @@
             canvas.width = container.offsetWidth;
             canvas.height = container.offsetHeight;
 
-            // Patina dorata
-            ctx.fillStyle = '#c5a059';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Sfumatura metallica
+            // Patina metallica dorata
             let grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            grad.addColorStop(0, 'rgba(255,255,255,0.2)');
-            grad.addColorStop(0.5, 'rgba(0,0,0,0.1)');
-            grad.addColorStop(1, 'rgba(255,255,255,0.2)');
+            grad.addColorStop(0, '#e6ca65');
+            grad.addColorStop(0.5, '#c5a059');
+            grad.addColorStop(1, '#9e7d3b');
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Testo guida
-            ctx.font = 'bold 16px "Cinzel", serif';
-            ctx.fillStyle = '#212f28';
+            // Testo "GRATTAMI"
+            ctx.font = '600 14px "Cinzel", serif';
+            ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('✨ GRATTAMI ✨', canvas.width / 2, canvas.height / 2);
@@ -327,7 +536,7 @@
 
             ctx.globalCompositeOperation = 'destination-out';
             ctx.beginPath();
-            ctx.arc(x, y, 18, 0, Math.PI * 2, false);
+            ctx.arc(x, y, 20, 0, Math.PI * 2, false);
             ctx.fill();
         }
 
@@ -340,9 +549,7 @@
         canvas.addEventListener('mousemove', scratch);
         canvas.addEventListener('touchmove', scratch);
 
-        window.addEventListener('load', initScratch);
-
-        // 2. LOGICA COUNTDOWN (Target: 02 Ottobre 2027, 11:00 AM)
+        // 3. LOGICA COUNTDOWN (Target: 02 Ottobre 2027)
         const targetDate = new Date("2027-10-02T11:00:00").getTime();
 
         function updateTimer() {
@@ -364,7 +571,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // 3. AUDIO BACKGROUND
+        // 4. CONTROLLO AUDIO
         const audio = document.getElementById('bgAudio');
         const musicBtn = document.getElementById('musicToggle');
         let playing = false;
@@ -375,7 +582,7 @@
                     playing = true;
                     musicBtn.innerText = '🔊';
                 }).catch(() => {
-                    alert("Assicurati che il file 'background.mpeg' sia presente nella stessa cartella del file HTML!");
+                    alert("Assicurati che il file 'background.mpeg' sia presente nella stessa cartella del progetto.");
                 });
             } else {
                 audio.pause();
