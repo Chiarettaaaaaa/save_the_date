@@ -8,18 +8,21 @@
     <!-- Font Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Canvas Confetti Library per i coriandoli -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            --bg-page: #ffffff;
+            --bg-page: #fbf9f6;
             --sage: #8a9a86;
             --sage-light: #e8eee7;
             --dusty-rose: #d8a7a1;
             --cream: #fcfaf7;
             --gold: #d4af37;
             --gold-light: #f3e5ab;
-            --text-dark: #3a443c;
+            --text-dark: #4a534c;
             --text-gold: #b38f28;
         }
 
@@ -45,38 +48,40 @@
         .stage {
             position: relative;
             width: 100%;
-            max-width: 440px;
-            min-height: 620px;
+            max-width: 450px;
+            min-height: 650px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        /* CONTENITORE BUSTA */
         .envelope-container {
             position: relative;
             width: 100%;
-            height: 540px;
+            height: 550px;
             cursor: pointer;
             perspective: 1000px;
+            z-index: 20;
         }
 
-        /* BUSTA FISICA HTML/CSS */
         .envelope {
             position: absolute;
             width: 100%;
             height: 100%;
             background: var(--cream);
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.25);
         }
 
-        /* Sfondo Acquerello Busta */
+        /* Sfondo Acquerello Busta coordinato */
         .env-bg {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 30%, #ffffff 0%, #f3e6e3 50%, #d8a7a1 100%);
-            opacity: 0.8;
+            background: radial-gradient(circle at 50% 40%, #ffffff 0%, #e8eee7 50%, #d8a7a1 100%);
+            opacity: 0.75;
         }
 
         /* LEMBI BUSTA (SVG) */
@@ -90,13 +95,12 @@
             pointer-events: none;
         }
 
-        /* LEMBO SUPERIORE (PER ANIMAZIONE APERTURA) */
         .flap-top {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 270px;
+            height: 275px;
             transform-origin: top center;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 4;
@@ -105,20 +109,20 @@
         .flap-top svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.12));
         }
 
         /* CERALACCA */
         .wax-seal {
             position: absolute;
-            top: 270px;
+            top: 275px;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90px;
-            height: 90px;
+            width: 86px;
+            height: 86px;
             border-radius: 50%;
             background: radial-gradient(circle at 35% 35%, #e6ca65 0%, #c5a059 50%, #8a6c29 100%);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.6);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.22), inset 0 2px 4px rgba(255,255,255,0.6);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -127,14 +131,14 @@
         }
 
         .wax-inner {
-            width: 74px;
-            height: 74px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             border: 1px dashed rgba(120, 85, 20, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
         }
 
         .wax-text {
@@ -147,12 +151,12 @@
 
         .tap-hint {
             position: absolute;
-            bottom: 25px;
+            bottom: 30px;
             width: 100%;
             text-align: center;
             font-family: 'Cinzel', serif;
             font-size: 0.75rem;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--sage);
             text-transform: uppercase;
             z-index: 3;
@@ -164,7 +168,7 @@
             50% { opacity: 1; }
         }
 
-        /* ANIMAZIONE APERTURA BUSTA */
+        /* ANIMAZIONE APERTURA */
         .envelope-container.open .flap-top {
             transform: rotateX(180deg);
             z-index: 1;
@@ -176,75 +180,110 @@
             pointer-events: none;
         }
 
-        .envelope-container.open .card-container {
-            transform: translateY(-80px) scale(1);
-            opacity: 1;
-            z-index: 10;
-        }
-
-        /* SCHEDA INVITO (PARTECIPAZIONE) */
+        /* SCHEDA INVITO INTERNA (GEOMETRICA E FLOREALE) */
         .card-container {
             position: relative;
             width: 100%;
             max-width: 440px;
-            background: var(--cream);
-            border: 1px solid rgba(212, 175, 55, 0.35);
+            background: #ffffff;
             border-radius: 12px;
-            padding: 35px 20px 30px 20px;
+            padding: 35px 25px 30px 25px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(216, 167, 161, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(138, 154, 134, 0.15) 0%, transparent 40%);
-            display: none; /* Attivato al click dell'apertura */
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            display: none; /* Attivato al click */
+            z-index: 30;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #ffffff 60%, #fbf9f6 100%);
         }
 
-        /* Dettagli Montagna Stilizzati */
-        .mountain-graphic {
-            width: 100%;
-            height: 45px;
-            margin: 5px 0 10px 0;
+        /* CORNICE GEOMETRICA DORATA (SVG OVERLAY) */
+        .frame-svg {
+            position: absolute;
+            inset: 10px;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ELEMENTI FLOREALI VERDE SALVIA E ROSA ANTICO (SVG) */
+        .flower-top-left {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 140px;
+            height: 140px;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .flower-bottom-right {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 140px;
+            height: 140px;
+            transform: rotate(180deg);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* CONTENUTO SCHEDA */
+        .card-content {
+            position: relative;
+            z-index: 4;
         }
 
         .subtitle {
             font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 4px;
             text-transform: uppercase;
-            color: var(--text-gold);
-            margin-bottom: 5px;
+            color: var(--sage);
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
         .names {
-            font-family: 'Alex Brush', cursive;
-            font-size: 3.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 2.1rem;
             color: var(--text-dark);
-            font-weight: normal;
-            margin: 5px 0 10px 0;
-            line-height: 1.1;
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin: 8px 0 10px 0;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+
+        /* Montagne Stilizzate */
+        .mountain-graphic {
+            width: 120px;
+            height: 25px;
+            margin: 5px auto 12px auto;
+            display: block;
         }
 
         .intro-text {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             color: var(--sage);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
+            line-height: 1.6;
             font-weight: 500;
         }
 
-        /* RIQUADRO GRATTAMI (SCRATCH BOX) */
+        /* RIQUADRO GRATTAMI */
         .scratch-container {
             position: relative;
             width: 100%;
-            max-width: 300px;
-            height: 90px;
-            margin: 0 auto 25px auto;
+            max-width: 280px;
+            height: 85px;
+            margin: 0 auto 22px auto;
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid rgba(212, 175, 55, 0.4);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
             user-select: none;
             -webkit-user-select: none;
         }
@@ -255,7 +294,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f7f3eb;
+            background: #faf8f3;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -265,7 +304,7 @@
 
         .scratch-date {
             font-family: 'Cinzel', serif;
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             letter-spacing: 2px;
             color: var(--text-gold);
             font-weight: 600;
@@ -286,33 +325,33 @@
         .timer-grid {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin: 20px 0 25px 0;
+            gap: 10px;
+            margin: 18px 0 22px 0;
         }
 
         .timer-box {
             background: #ffffff;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 14px;
-            padding: 12px 6px;
-            width: 68px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 10px 4px;
+            width: 64px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
         }
 
         .timer-num {
             font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--text-dark);
             display: block;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .timer-label {
-            font-size: 0.58rem;
+            font-size: 0.55rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--sage);
-            margin-top: 4px;
+            margin-top: 3px;
             display: block;
         }
 
@@ -320,12 +359,12 @@
         .btn-action {
             display: block;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             margin: 0 auto;
             background: #ffffff;
-            border: 1px solid rgba(212, 175, 55, 0.5);
+            border: 1px solid var(--gold);
             color: var(--text-gold);
-            padding: 14px 20px;
+            padding: 13px 18px;
             border-radius: 25px;
             font-family: 'Cinzel', serif;
             font-size: 0.75rem;
@@ -333,58 +372,37 @@
             text-decoration: none;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.12);
+            font-weight: 600;
         }
 
         .btn-action:hover {
             background: var(--gold);
             color: #ffffff;
         }
-
-        /* BOTTONE MUSICA */
-        .audio-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 1px solid var(--gold);
-            color: var(--text-gold);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 99;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
     </style>
 </head>
 <body>
 
-    <!-- Audio di sottofondo -->
+    <!-- Audio di sottofondo (Riproduzione automatica all'apertura) -->
     <audio id="bgAudio" loop preload="auto">
         <source src="background.mpeg" type="audio/mpeg">
     </audio>
 
-    <button class="audio-btn" id="musicToggle" title="Musica">🎵</button>
-
     <div class="stage">
-        <!-- BUSTA APRIBILE (LANDING) -->
+        <!-- BUSTA ESTERNA -->
         <div class="envelope-container" id="envelopeContainer" onclick="openEnvelope()">
             <div class="envelope">
                 <div class="env-bg"></div>
 
-                <!-- Lembo Superiore -->
+                <!-- Lembo Superiore Busta -->
                 <div class="flap-top">
-                    <svg viewBox="0 0 400 270" preserveAspectRatio="none">
-                        <polygon points="0,0 200,270 400,0" fill="#fbf8f3" stroke="rgba(212, 175, 55, 0.3)" stroke-width="1"/>
-                        <polygon points="0,0 200,270 400,0" fill="url(#topGrad)" opacity="0.7"/>
+                    <svg viewBox="0 0 400 275" preserveAspectRatio="none">
+                        <polygon points="0,0 200,275 400,0" fill="#fcfaf7" stroke="rgba(212, 175, 55, 0.3)" stroke-width="1"/>
+                        <polygon points="0,0 200,275 400,0" fill="url(#topGrad)" opacity="0.75"/>
                         <defs>
                             <linearGradient id="topGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#f3e6e3"/>
+                                <stop offset="0%" stop-color="#e8eee7"/>
                                 <stop offset="100%" stop-color="#d8a7a1"/>
                             </linearGradient>
                         </defs>
@@ -392,21 +410,21 @@
                 </div>
 
                 <!-- Lembi Laterali e Inferiore -->
-                <svg class="env-svg" viewBox="0 0 400 540" preserveAspectRatio="none">
+                <svg class="env-svg" viewBox="0 0 400 550" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="sideGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#e2eae1"/>
+                            <stop offset="0%" stop-color="#e8eee7"/>
                             <stop offset="100%" stop-color="#ffffff"/>
                         </linearGradient>
                         <linearGradient id="bottomGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" stop-color="#8a9a86" stop-opacity="0.4"/>
+                            <stop offset="0%" stop-color="#8a9a86" stop-opacity="0.35"/>
                             <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
                         </linearGradient>
                     </defs>
-                    <polygon points="0,0 200,270 0,540" fill="url(#sideGrad)" opacity="0.6"/>
-                    <polygon points="400,0 200,270 400,540" fill="url(#sideGrad)" opacity="0.6"/>
-                    <polygon points="0,540 200,270 400,540" fill="#fbf8f3"/>
-                    <polygon points="0,540 200,270 400,540" fill="url(#bottomGrad)"/>
+                    <polygon points="0,0 200,275 0,550" fill="url(#sideGrad)" opacity="0.7"/>
+                    <polygon points="400,0 200,275 400,550" fill="url(#sideGrad)" opacity="0.7"/>
+                    <polygon points="0,550 200,275 400,550" fill="#fcfaf7"/>
+                    <polygon points="0,550 200,275 400,550" fill="url(#bottomGrad)"/>
                 </svg>
 
                 <div class="tap-hint">Clicca per aprire</div>
@@ -420,79 +438,135 @@
             </div>
         </div>
 
-        <!-- SCHEDA INVITO (SAVE THE DATE) -->
+        <!-- CARD INTERNA PARTECIPAZIONE -->
         <div class="card-container" id="cardContainer">
-            <div class="subtitle">SAVE THE DATE</div>
-
-            <!-- Dettaglio Montagna Top -->
-            <svg class="mountain-graphic" viewBox="0 0 200 40" fill="none" stroke="#d4af37" stroke-width="1.2">
-                <path d="M 10 35 L 40 15 L 60 28 L 90 8 L 120 30 L 145 18 L 175 35" />
-                <path d="M 75 18 L 90 8 L 102 17" stroke-dasharray="2 2" />
-                <circle cx="100" cy="5" r="1" fill="#d4af37" />
+            <!-- Cornice Geometrica Dorata -->
+            <svg class="frame-svg" viewBox="0 0 400 600" fill="none">
+                <!-- Poligoni incrociati stile foto di riferimento -->
+                <polygon points="30,20 370,50 380,550 20,570" stroke="#d4af37" stroke-width="1.2" opacity="0.8"/>
+                <polygon points="50,10 380,30 350,580 30,540" stroke="#d4af37" stroke-width="0.8" opacity="0.5"/>
             </svg>
 
-            <h1 class="names">Chiara &amp; Alberto</h1>
-
-            <p class="intro-text">Siamo lieti di invitarvi<br>al nostro matrimonio</p>
-
-            <!-- RIQUADRO GRATTAMI -->
-            <div class="scratch-container" id="scratchContainer">
-                <div class="scratch-secret">
-                    <div class="scratch-date">2 OTTOBRE 2027</div>
-                </div>
-                <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
-            </div>
-
-            <!-- COUNTDOWN -->
-            <div class="timer-grid">
-                <div class="timer-box">
-                    <span class="timer-num" id="days">00</span>
-                    <span class="timer-label">Giorni</span>
-                </div>
-                <div class="timer-box">
-                    <span class="timer-num" id="hours">00</span>
-                    <span class="timer-label">Ore</span>
-                </div>
-                <div class="timer-box">
-                    <span class="timer-num" id="minutes">00</span>
-                    <span class="timer-label">Minuti</span>
-                </div>
-                <div class="timer-box">
-                    <span class="timer-num" id="seconds">00</span>
-                    <span class="timer-label">Secondi</span>
-                </div>
-            </div>
-
-            <!-- PULSANTE CERIMONIA -->
-            <a href="#cerimonia" class="btn-action">
-                CERIMONIA
-            </a>
-
-            <!-- Dettaglio Montagna Bottom -->
-            <svg class="mountain-graphic" style="margin-top:20px; transform: rotate(180deg);" viewBox="0 0 200 40" fill="none" stroke="#8a9a86" stroke-width="1">
-                <path d="M 20 30 L 50 15 L 80 30 L 110 10 L 150 32" />
+            <!-- Fiori Acquerello Verde Salvia, Rosa Antico e Panna (Top Left) -->
+            <svg class="flower-top-left" viewBox="0 0 100 100" fill="none">
+                <circle cx="25" cy="25" r="18" fill="#d8a7a1" opacity="0.6"/>
+                <circle cx="45" cy="20" r="14" fill="#fcfaf7" opacity="0.9" stroke="#d8a7a1" stroke-width="0.5"/>
+                <path d="M 10 40 C 5 60, 30 70, 40 50 C 30 30, 15 25, 10 40 Z" fill="#8a9a86" opacity="0.5"/>
+                <path d="M 40 10 C 60 5, 70 30, 50 40 C 30 30, 25 15, 40 10 Z" fill="#8a9a86" opacity="0.4"/>
+                <circle cx="25" cy="25" r="3" fill="#d4af37"/>
             </svg>
+
+            <!-- Fiori Acquerello (Bottom Right) -->
+            <svg class="flower-bottom-right" viewBox="0 0 100 100" fill="none">
+                <circle cx="25" cy="25" r="18" fill="#d8a7a1" opacity="0.6"/>
+                <circle cx="45" cy="20" r="14" fill="#fcfaf7" opacity="0.9" stroke="#d8a7a1" stroke-width="0.5"/>
+                <path d="M 10 40 C 5 60, 30 70, 40 50 C 30 30, 15 25, 10 40 Z" fill="#8a9a86" opacity="0.5"/>
+                <path d="M 40 10 C 60 5, 70 30, 50 40 C 30 30, 25 15, 40 10 Z" fill="#8a9a86" opacity="0.4"/>
+                <circle cx="25" cy="25" r="3" fill="#d4af37"/>
+            </svg>
+
+            <!-- Contenuto Invito -->
+            <div class="card-content">
+                <div class="subtitle">IL MATRIMONIO DI</div>
+
+                <h1 class="names">CHIARA E<br>ALBERTO</h1>
+
+                <!-- Profile Montagne Stilizzato -->
+                <svg class="mountain-graphic" viewBox="0 0 120 25" fill="none" stroke="#d4af37" stroke-width="1.2">
+                    <path d="M 5 22 L 30 8 L 45 16 L 65 4 L 85 18 L 100 10 L 115 22" />
+                    <path d="M 55 10 L 65 4 L 73 11" stroke-dasharray="1.5 1.5" />
+                </svg>
+
+                <p class="intro-text">SONO LIETI DI FESTEGGIARE INSIEME AD<br>AMICI E PARENTI LA LORO UNIONE</p>
+
+                <!-- RIQUADRO GRATTAMI -->
+                <div class="scratch-container" id="scratchContainer">
+                    <div class="scratch-secret">
+                        <div class="scratch-date">2 OTTOBRE 2027</div>
+                    </div>
+                    <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
+                </div>
+
+                <!-- COUNTDOWN TIMER -->
+                <div class="timer-grid">
+                    <div class="timer-box">
+                        <span class="timer-num" id="days">00</span>
+                        <span class="timer-label">Giorni</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-num" id="hours">00</span>
+                        <span class="timer-label">Ore</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-num" id="minutes">00</span>
+                        <span class="timer-label">Minuti</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-num" id="seconds">00</span>
+                        <span class="timer-label">Secondi</span>
+                    </div>
+                </div>
+
+                <!-- PULSANTE CERIMONIA CON LINK CHIESA REGINA PACIS SARONNO -->
+                <a href="https://maps.google.com/?q=Chiesa+Regina+Pacis+Saronno" target="_blank" class="btn-action">
+                    CERIMONIA
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. APERTURA BUSTA
+        // 1. APERTURA BUSTA, MUSICA AUTOMATICA E CORIANDOLI
         function openEnvelope() {
             const container = document.getElementById('envelopeContainer');
             const card = document.getElementById('cardContainer');
-            
+            const audio = document.getElementById('bgAudio');
+
             if (!container.classList.contains('open')) {
+                // Avvio Musica di Sottofondo
+                audio.play().catch(() => {
+                    console.log("Riproduzione automatica limitata dal browser");
+                });
+
                 container.classList.add('open');
                 
                 setTimeout(() => {
                     container.style.display = 'none';
                     card.style.display = 'block';
                     initScratch();
+                    launchConfetti(); // Lancio dei coriandoli
                 }, 700);
             }
         }
 
-        // 2. LOGICA SCRATCH (GRATTAMI)
+        // 2. CORIANDOLI (CONFETTI EXPLOSION)
+        function launchConfetti() {
+            var duration = 2.5 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#8a9a86', '#d8a7a1', '#d4af37', '#ffffff']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#8a9a86', '#d8a7a1', '#d4af37', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+
+        // 3. RIQUADRO GRATTAMI (SCRATCH CANVAS)
         const canvas = document.getElementById('scratchCanvas');
         const ctx = canvas.getContext('2d');
         const container = document.getElementById('scratchContainer');
@@ -501,7 +575,7 @@
             canvas.width = container.offsetWidth;
             canvas.height = container.offsetHeight;
 
-            // Patina metallica dorata
+            // Sfondo metallico dorato
             let grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
             grad.addColorStop(0, '#e6ca65');
             grad.addColorStop(0.5, '#c5a059');
@@ -509,8 +583,8 @@
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Testo "GRATTAMI"
-            ctx.font = '600 14px "Cinzel", serif';
+            // Scritta informativa
+            ctx.font = '600 13px "Cinzel", serif';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -536,7 +610,7 @@
 
             ctx.globalCompositeOperation = 'destination-out';
             ctx.beginPath();
-            ctx.arc(x, y, 20, 0, Math.PI * 2, false);
+            ctx.arc(x, y, 22, 0, Math.PI * 2, false);
             ctx.fill();
         }
 
@@ -549,7 +623,7 @@
         canvas.addEventListener('mousemove', scratch);
         canvas.addEventListener('touchmove', scratch);
 
-        // 3. LOGICA COUNTDOWN (Target: 02 Ottobre 2027)
+        // 4. COUNTDOWN (Target: 2 Ottobre 2027)
         const targetDate = new Date("2027-10-02T11:00:00").getTime();
 
         function updateTimer() {
@@ -570,26 +644,6 @@
         }
         setInterval(updateTimer, 1000);
         updateTimer();
-
-        // 4. CONTROLLO AUDIO
-        const audio = document.getElementById('bgAudio');
-        const musicBtn = document.getElementById('musicToggle');
-        let playing = false;
-
-        musicBtn.addEventListener('click', () => {
-            if (!playing) {
-                audio.play().then(() => {
-                    playing = true;
-                    musicBtn.innerText = '🔊';
-                }).catch(() => {
-                    alert("Assicurati che il file 'background.mpeg' sia presente nella stessa cartella del progetto.");
-                });
-            } else {
-                audio.pause();
-                playing = false;
-                musicBtn.innerText = '🎵';
-            }
-        });
     </script>
 </body>
 </html>
